@@ -21,7 +21,20 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'alamat',
+        'no_hp',
     ];
+    
+    public function periksaSebagaiPasien()
+    {
+        return $this->hasMany(Periksa::class, 'id_pasien');
+    }
+
+    public function periksaSebagaiDokter()
+    {
+        return $this->hasMany(Periksa::class, 'id_dokter');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
