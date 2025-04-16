@@ -1,3 +1,9 @@
+@extends('layouts.app')
+
+@section('subtitle', 'Welcome')
+@section('content_header_title', 'Home')
+@section('content_header_subtitle', 'Welcome')
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
