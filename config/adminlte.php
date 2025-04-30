@@ -257,7 +257,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -298,6 +298,7 @@ return [
     |
     */
 
+
     'menu' => [
     // Navbar items:
     [
@@ -310,23 +311,49 @@ return [
         'topnav_right' => true,
     ],
 
-    // Sidebar items:
+    // Sidebar items untuk DOKTER:
     [
-        'text' => 'Dashboard',
+        'text' => 'Dashboard Dokter',
         'url'  => '/dokter',
         'icon' => 'fas fa-th',
+        'can' => 'dokter', // hanya untuk role dokter
     ],
     [
-        'text' => 'Periksa',
+        'text' => 'Periksa Pasien',
         'url'  => '/dokter/periksa',
         'icon' => 'fas fa-user',
+        // 'can' => 'dokter', // hanya untuk role dokter
     ],
     [
-        'text' => 'Obat',
+        'text' => 'Data Obat',
         'url'  => '/dokter/obat',
         'icon' => 'fas fa-pills',
+        // 'can' => 'dokter', // hanya untuk role dokter
+    ],
+
+    // Sidebar items untuk PASIEN:
+    [
+        'text' => 'Dashboard Pasien',
+        'url'  => '/pasien',
+        'icon' => 'fas fa-users',
+        'can' => 'pasien', // hanya untuk role pasien
+    ],
+
+    [
+        'text' => 'Periksa',
+        'url'  => '/pasien/periksa',
+        'icon' => 'fas fa-user-md',
+    ],
+    // Logout (umum untuk semua user)
+    [
+        'text' => 'Logout',
+        'url'  => '/logout',
+        'icon' => 'fas fa-sign-out-alt',
+        'method' => 'POST', 
+        'topnav_right' => true,
     ],
 ],
+
 
     /*
     |--------------------------------------------------------------------------

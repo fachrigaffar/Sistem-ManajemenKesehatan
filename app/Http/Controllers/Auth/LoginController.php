@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Route;
 
 class LoginController extends Controller
 {
@@ -28,7 +31,44 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-        return Auth::user()->role == 'dokter' ? '/dokter' : '/home';
+        $user = Auth::user();
+        if ($user) {
+            return match ($user->role) {
+                'dokter' => '/dokter',
+                'pasien' => '/pasien',
+                default => '/',
+            };
+        }
+        return '/';
+
+    }
+    // Post-logout redirection
+    protected function loggedOut(Request $request)
+    {
+        $user = Auth::user(); // User is null after logout, so we need to get role before logout
+        $role = $request->session()->get('role'); // Store role in session before logout
+
+        return redirect (match ($role) {
+            'dokter' => '/dokter',
+            'pasien' => '/pasien',
+            default => '/',
+        })->with('status', 'You have been logged out successfully.');
+    }
+    
+    public function logout(Request $request)
+    {
+        $request->session()->put('user_role', Auth::user()->role); // Store role before logout
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new \Illuminate\Http\JsonResponse([], 204)
+            : redirect('/');
     }
     /**
      * Create a new controller instance.

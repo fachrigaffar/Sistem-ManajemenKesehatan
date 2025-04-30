@@ -28,6 +28,17 @@ class HomeController extends Controller
 
     public function dokter()
     {
+        if (auth()->user()->role !== 'dokter') {
+            abort(403, 'Unauthorized action.');
+        }
         return view('dokter.index');
+    }
+    
+    public function pasien()
+    {
+        if (auth()->user()->role !== 'pasien') {
+            abort(403, 'Unauthorized action.');
+        }
+        return view('pasien.index');
     }
 }
